@@ -8,7 +8,7 @@
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "module": "esnext",
-    "types": ["react/next", "react-dom/next"],
+    "types": ["react/next", "react-dom/next", "node"],
     "downlevelIteration": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
