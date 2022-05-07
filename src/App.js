@@ -1,8 +1,29 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Select from "./components/Select";
+import { Line } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js'
 
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+)
 function App() {
+
   const title = "Analysis Chart";
 
   const [loading, setLoading] = useState(true);
@@ -32,6 +53,24 @@ function App() {
   const handleCampSelect = (e) => setCamp(e.target.value);
   const handleSchoolSelect = (e) => setSchool(e.target.value);
 
+
+  const labels = [...new Set(analysisData.map((option) => option.month))];
+
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: 'Dataset 1',
+        data: analysisData.map((item) => item.lessons),
+        borderColor: 'rgb(255, 99, 132)',
+        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+        pointStyle: 'circle',
+        pointRadius: 10,
+        pointHoverRadius: 15
+      },
+    ],
+  };
+
   return (
     <div className="App">
       <h1 className="m-3">{title}</h1>
@@ -47,6 +86,10 @@ function App() {
           <div className="col-4">
             <Select id="school" label="Select School" loading={loading} options={schools} selectedValue={selectedSchool} handleOnSelect={handleSchoolSelect} />
           </div>
+        </div>
+
+        <div className="row">
+          <Line data={data} />
         </div>
       </div>
     </div>
