@@ -22,6 +22,17 @@ ChartJS.register(
   Tooltip,
   Legend
 )
+
+export interface Data {
+  "id": string,
+  "month": string,
+  "camp": string,
+  "country": string,
+  "school": string,
+  "lessons": number
+	
+}
+
 function App() {
 
   const title = "Analysis Chart";
@@ -30,7 +41,7 @@ function App() {
   const [selectedCountry, setCountry] = useState("");
   const [selectedCamp, setCamp] = useState("");
   const [selectedSchool, setSchool] = useState("");
-  const [analysisData, setAnalysisData] = useState([]);
+  const [analysisData, setAnalysisData] = useState<Data[]>([]);
 
   useEffect(() => {
     setLoading(true);
@@ -45,13 +56,13 @@ function App() {
     }, 3000);
   }, []);
 
-  const countries = [...new Set(analysisData.map((option) => option.country))];
+  const countries = [...new Set<any>(analysisData.map((option) => option.country))];
   const camps = [...new Set(analysisData.map((option) => option.camp))];
   const schools = [...new Set(analysisData.map((option) => option.school))];
 
-  const handleCountrySelect = (e) => setCountry(e.target.value);
-  const handleCampSelect = (e) => setCamp(e.target.value);
-  const handleSchoolSelect = (e) => setSchool(e.target.value);
+  const handleCountrySelect = (e: React.ChangeEvent<HTMLSelectElement>) => setCountry(e.target.value);
+  const handleCampSelect = (e: React.ChangeEvent<HTMLSelectElement>) => setCamp(e.target.value);
+  const handleSchoolSelect = (e: React.ChangeEvent<HTMLSelectElement>) => setSchool(e.target.value);
 
 
   const labels = [...new Set(analysisData.map((option) => option.month))];

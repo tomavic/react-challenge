@@ -1,6 +1,13 @@
-import React, {Fragment} from 'react';
+import {Fragment} from 'react';
 
-const Select = ({id, label, options, loading, selectedValue, handleOnSelect}) => {
+const Select = ({id, label, options , loading, selectedValue, handleOnSelect}: {
+  id: string,
+  label: string,
+  options: Array<string>,
+  loading: boolean,
+  selectedValue: string,
+  handleOnSelect: any
+}) => {
   return (
     <Fragment>
       <label htmlFor={id} className="form-label">{label}</label>
