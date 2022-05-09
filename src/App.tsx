@@ -5,6 +5,8 @@ import { Line } from "react-chartjs-2";
 
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, ChartOptions } from "chart.js";
 import React from "react";
+import Spinner from "./components/Spinner";
+import Navbar from "./components/Navbar";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -18,7 +20,6 @@ export interface Data {
 }
 
 function App() {
-  const title = "Analysis Chart";
 
   const [loading, setLoading] = useState(true);
   const [selectedCountry, setCountry] = useState("");
@@ -46,7 +47,8 @@ function App() {
   const handleCountrySelect = (e: React.ChangeEvent<HTMLSelectElement>) => setCountry(e.target.value);
   const handleCampSelect = (e: React.ChangeEvent<HTMLSelectElement>) => setCamp(e.target.value);
   const handleSchoolSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSchool(e.target.value);
+    const value = e.target.value;
+    setSchool(value)
   };
 
   const labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -55,6 +57,15 @@ function App() {
     {
       label: selectedSchool,
       data: analysisData.filter((option) => selectedSchool === option.school).map((option) => option.lessons),
+      borderColor: "rgb(255, 99, 132)",
+      backgroundColor: "rgba(255, 99, 132, 0.5)",
+      pointStyle: "circle",
+      pointRadius: 8,
+      pointHoverRadius: 12,
+    },
+    {
+      label: selectedSchool,
+      data: analysisData.filter((option) => selectedCountry === option.country).map((option) => option.lessons),
       borderColor: "rgb(255, 99, 132)",
       backgroundColor: "rgba(255, 99, 132, 0.5)",
       pointStyle: "circle",
@@ -103,13 +114,12 @@ function App() {
 
   return (
     <div className="App">
-      <h1 className="m-3">{title}</h1>
 
-      {loading ? (
-        <img src={process.env.PUBLIC_URL + '/assets/loader.gif'} alt="loader" style={{ margin: "0 auto", display: "block", width: '300px' }} />
-      ) : (
+      <Navbar />
+
+      {loading ? <Spinner /> : (
         <div className="container">
-          <div className="row">
+          <div className="row my-4">
             <div className="col-4">
               <Select id="country" label="Select Country" loading={loading} options={countries} selectedValue={selectedCountry} handleOnSelect={handleCountrySelect} />
             </div>
@@ -125,7 +135,7 @@ function App() {
             {selectedSchool ? (
               <Line data={data} options={options} />
             ) : (
-              <p className="alert alert-danger" role="alert">
+              <p className="alert alert-info" role="alert">
                 Please select to view Analytics
               </p>
             )}
