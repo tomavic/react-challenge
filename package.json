@@ -49,7 +49,7 @@
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",
       "!<rootDir>/node_modules/",
-      "!<rootDir>/src/index.ts",
+      "!<rootDir>/src/index.tsx",
       "!<rootDir>/src/reportWebVitals.ts"
     ]
   },
