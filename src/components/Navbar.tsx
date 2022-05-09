@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import { Fragment } from 'react'
 
 function Navbar() {
   const title = "Analysis Chart";
@@ -20,7 +20,7 @@ function Navbar() {
           {title}
           </a>
 
-          <button className="btn btn-primary" id="btnSwitch" onClick={changeTheme}>Switch</button>
+          <button className="btn btn-primary" id="btnSwitch" onClick={changeTheme}>Switch Theme</button>
         </div>
       </nav>
     </Fragment>

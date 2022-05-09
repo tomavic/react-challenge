@@ -26,6 +26,7 @@ function App() {
   const [selectedCamp, setCamp] = useState("");
   const [selectedSchool, setSchool] = useState("");
   const [analysisData, setAnalysisData] = useState<Data[]>([]);
+  const labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
   useEffect(() => {
     setLoading(true);
@@ -43,16 +44,6 @@ function App() {
   const countries = [...new Set<any>(analysisData.map((option) => option.country))];
   const camps = [...new Set(analysisData.filter((option) => selectedCountry === option.country).map((option) => option.camp))];
   const schools = [...new Set(analysisData.filter((option) => selectedCamp === option.camp).map((option) => option.school))];
-
-  const handleCountrySelect = (e: React.ChangeEvent<HTMLSelectElement>) => setCountry(e.target.value);
-  const handleCampSelect = (e: React.ChangeEvent<HTMLSelectElement>) => setCamp(e.target.value);
-  const handleSchoolSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const value = e.target.value;
-    setSchool(value)
-  };
-
-  const labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
   const datasets = [
     {
       label: selectedSchool,
@@ -62,17 +53,13 @@ function App() {
       pointStyle: "circle",
       pointRadius: 8,
       pointHoverRadius: 12,
-    },
-    {
-      label: selectedSchool,
-      data: analysisData.filter((option) => selectedCountry === option.country).map((option) => option.lessons),
-      borderColor: "rgb(255, 99, 132)",
-      backgroundColor: "rgba(255, 99, 132, 0.5)",
-      pointStyle: "circle",
-      pointRadius: 8,
-      pointHoverRadius: 12,
-    },
+    }
   ];
+
+
+  const handleCountrySelect = (e: React.ChangeEvent<HTMLSelectElement>) => setCountry(e.target.value);
+  const handleCampSelect = (e: React.ChangeEvent<HTMLSelectElement>) => setCamp(e.target.value);
+  const handleSchoolSelect = (e: React.ChangeEvent<HTMLSelectElement>) => setSchool(e.target.value);
 
   const options: ChartOptions<any> = {
     pointBackgroundColor: "#fff",
@@ -107,7 +94,7 @@ function App() {
     },
   };
 
-  const data = {
+  let data = {
     labels,
     datasets,
   };
@@ -121,13 +108,13 @@ function App() {
         <div className="container">
           <div className="row my-4">
             <div className="col-4">
-              <Select id="country" label="Select Country" loading={loading} options={countries} selectedValue={selectedCountry} handleOnSelect={handleCountrySelect} />
+              <Select id="country" label="Select Country" disabled={false} options={countries} selectedValue={selectedCountry} handleOnSelect={handleCountrySelect} />
             </div>
             <div className="col-4">
-              <Select id="camp" label="Select Camp" loading={loading} options={camps} selectedValue={selectedCamp} handleOnSelect={handleCampSelect} />
+              <Select id="camp" label="Select Camp" disabled={!selectedCountry} options={camps} selectedValue={selectedCamp} handleOnSelect={handleCampSelect} />
             </div>
             <div className="col-4">
-              <Select id="school" label="Select School" loading={loading} options={schools} selectedValue={selectedSchool} handleOnSelect={handleSchoolSelect} />
+              <Select id="school" label="Select School" disabled={!selectedCountry && !selectedCamp} options={schools} selectedValue={selectedSchool} handleOnSelect={handleSchoolSelect} />
             </div>
           </div>
 
